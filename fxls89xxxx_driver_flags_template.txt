@@ -1,0 +1,15 @@
+/*
+ * fxls89xxxx_driver_flags.h
+ *
+ *  Created on: 17 oct. 2025
+ *      Author: Ludo
+ */
+
+#ifndef __FXLS89XXXX_DRIVER_FLAGS_H__
+#define __FXLS89XXXX_DRIVER_FLAGS_H__
+
+/*** FXLS89XXXX driver compilation flags ***/
+
+#define FXLS89XXXX_DRIVER_I2C_ERROR_BASE_LAST   0
+
+#endif /* __FXLS89XXXX_DRIVER_FLAGS_H__ */
