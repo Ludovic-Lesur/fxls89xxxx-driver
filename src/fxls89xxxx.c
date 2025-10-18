@@ -115,14 +115,14 @@ FXLS89XXXX_status_t FXLS89XXXX_get_acceleration(uint8_t i2c_address, FXLS89XXXX_
     if (status != FXLS89XXXX_SUCCESS) goto errors;
     status = FXLS89XXXX_HW_i2c_read(i2c_address, &reg_value, 1);
     if (status != FXLS89XXXX_SUCCESS) goto errors;
-    acceleration_data |= (reg_value << (FXLS89XXXX_NUMBER_OF_BITS - MATH_U8_SIZE_BITS));
+    acceleration_data |= (reg_value << 8);
     // LSB.
     reg_addr--;
     status = FXLS89XXXX_HW_i2c_write(i2c_address, &reg_addr, 1, 0);
     if (status != FXLS89XXXX_SUCCESS) goto errors;
     status = FXLS89XXXX_HW_i2c_read(i2c_address, &reg_value, 1);
     if (status != FXLS89XXXX_SUCCESS) goto errors;
-    acceleration_data |= (reg_value >> (MATH_U8_SIZE_BITS - (FXLS89XXXX_NUMBER_OF_BITS - MATH_U8_SIZE_BITS)));
+    acceleration_data |= reg_value;
     // Convert to signed value.
     math_status = MATH_two_complement_to_integer(acceleration_data, (FXLS89XXXX_NUMBER_OF_BITS - 1), acceleration_data_xbits);
     MATH_exit_error(FXLS89XXXX_ERROR_BASE_MATH);
