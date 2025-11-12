@@ -26,6 +26,7 @@ typedef enum {
     FXLS89XXXX_SUCCESS = 0,
     FXLS89XXXX_ERROR_NULL_PARAMETER,
     FXLS89XXXX_ERROR_CONFIGURATION_SIZE,
+    FXLS89XXXX_ERROR_REGISTER_ADDRESS,
     FXLS89XXXX_ERROR_AXIS,
     // Low level drivers errors.
     FXLS89XXXX_ERROR_BASE_I2C = ERROR_BASE_STEP,
@@ -109,6 +110,42 @@ typedef struct {
 } FXLS89XXXX_register_setting_t;
 
 /*!******************************************************************
+ * \struct FXLS89XXXX_int_src1_t
+ * \brief FXLS89XXXX INT_SRC1 register format.
+ *******************************************************************/
+typedef union {
+    uint8_t all;
+    struct {
+        unsigned ot_ea :1;
+        unsigned reserved6 :1;
+        unsigned x_ot_ef :1;
+        unsigned x_ot_pol :1;
+        unsigned y_ot_ef :1;
+        unsigned y_ot_pol :1;
+        unsigned z_ot_ef :1;
+        unsigned z_ot_pol :1;
+    } __attribute__((scalar_storage_order("big-endian"))) __attribute__((packed));
+} FXLS89XXXX_int_src1_t;
+
+/*!******************************************************************
+ * \struct FXLS89XXXX_int_src2_t
+ * \brief FXLS89XXXX INT_SRC2 register format.
+ *******************************************************************/
+typedef union {
+    uint8_t all;
+    struct {
+        unsigned wt_ea :1;
+        unsigned reserved6 :1;
+        unsigned x_wt_ef :1;
+        unsigned reserved4 :1;
+        unsigned y_wt_ef :1;
+        unsigned reserved2 :1;
+        unsigned z_wt_ef :1;
+        unsigned reserved0 :1;
+    } __attribute__((scalar_storage_order("big-endian"))) __attribute__((packed));
+} FXLS89XXXX_int_src2_t;
+
+/*!******************************************************************
  * \enum FXLS89XXXX_axis_t
  * \brief FXLS89XXXX axis list.
  *******************************************************************/
@@ -159,6 +196,16 @@ FXLS89XXXX_status_t FXLS89XXXX_get_id(uint8_t i2c_address, uint8_t* chip_id);
  * \retval      Function execution status.
  *******************************************************************/
 FXLS89XXXX_status_t FXLS89XXXX_write_configuration(uint8_t i2c_address, const FXLS89XXXX_register_setting_t* fxls89xxxx_configuration, uint8_t fxls89xxxx_configuration_size);
+
+/*!******************************************************************
+ * \fn FXLS89XXXX_status_t FXLS89XXXX_clear_interrupt(uint8_t i2c_address, FXLS89XXXX_int_src1_t* int_src1, FXLS89XXXX_int_src2_t* int_src2)
+ * \brief Clear accelerometer interrupt and read corresponding source.
+ * \param[in]   i2c_address: I2C address of the sensor.
+ * \param[out]  int_src1: Pointer to byte that will contain the INT_SRC1 register value.
+ * \param[out]  int_src2: Pointer to byte that will contain the INT_SRC2 register value.
+ * \retval      Function execution status.
+ *******************************************************************/
+FXLS89XXXX_status_t FXLS89XXXX_clear_interrupt(uint8_t i2c_address, FXLS89XXXX_int_src1_t* int_src1, FXLS89XXXX_int_src2_t* int_src2);
 
 /*!******************************************************************
  * \fn FXLS89XXXX_status_t FXLS89XXXX_get_acceleration(uint8_t i2c_address, FXLS89XXXX_axis_t axis, int32_t* acceleration_data_xbits)
