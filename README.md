@@ -24,3 +24,19 @@ Here is the versions compatibility table:
 | `FXLS89XXXX_DRIVER_DISABLE_FLAGS_FILE` | `defined` / `undefined` | Disable the `fxls89xxxx_driver_flags.h` header file inclusion when compilation flags are given in the project settings or by command line. |
 | `FXLS89XXXX_DRIVER_DISABLE` | `defined` / `undefined` | Disable the FXLS89xxxx driver. |
 | `FXLS89XXXX_DRIVER_I2C_ERROR_BASE_LAST` | `<value>` | Last error base of the low level I2C driver. |
+
+# Build
+
+A static library can be compiled by command line with `cmake`.
+
+```bash
+mkdir build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE="<toolchain_file_path>" \
+      -DTOOLCHAIN_PATH="<arm-none-eabi-gcc_path>" \
+      -DTYPES_PATH="<types_file_path>" \
+      -DEMBEDDED_UTILS_PATH="<embedded-utils_path>" \
+      -DFXLS89XXXX_DRIVER_I2C_ERROR_BASE_LAST=0 \
+      -G "Unix Makefiles" ..
+make all
+```
